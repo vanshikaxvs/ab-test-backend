@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing Page — A/B Test Demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+
+    /* ── VARIANT A (existing design — conservative) ── */
+    [data-variant="A"] .hero {
+      background: #1e293b;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    [data-variant="A"] .hero h1 { font-size: 2.2rem; margin-bottom: 1rem; color: #f8fafc; }
+    [data-variant="A"] .hero p  { color: #94a3b8; max-width: 500px; margin: 0 auto 2rem; }
+    [data-variant="A"] .cta-btn {
+      background: #3b82f6; color: #fff; border: none;
+      padding: .85rem 2.5rem; border-radius: 6px; font-size: 1rem;
+      cursor: pointer; transition: background .2s;
+    }
+    [data-variant="A"] .cta-btn:hover { background: #2563eb; }
+
+    /* ── VARIANT B (redesigned — bolder, more colour) ── */
+    [data-variant="B"] .hero {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 60%);
+      padding: 6rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    [data-variant="B"] .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(99,102,241,.25), transparent);
+    }
+    [data-variant="B"] .hero h1 {
+      font-size: 3rem; font-weight: 800; margin-bottom: 1rem;
+      background: linear-gradient(90deg, #a5b4fc, #818cf8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+    [data-variant="B"] .hero p  {
+      color: #cbd5e1; max-width: 560px; margin: 0 auto 2.5rem; font-size: 1.1rem;
+      position: relative;
+    }
+    [data-variant="B"] .cta-btn {
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      color: #fff; border: none;
+      padding: 1rem 3rem; border-radius: 50px; font-size: 1.05rem; font-weight: 600;
+      cursor: pointer; box-shadow: 0 0 30px rgba(99,102,241,.4);
+      transition: transform .15s, box-shadow .15s; position: relative;
+    }
+    [data-variant="B"] .cta-btn:hover { transform: scale(1.04); box-shadow: 0 0 50px rgba(99,102,241,.6); }
+
+    /* ── SHARED ── */
+    .section  { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem; }
+    .color-section { background: #1e293b; padding: 2rem 1.5rem; }
+    .color-grid { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .swatch {
+      width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+      border: 3px solid transparent; transition: border-color .15s, transform .15s;
+    }
+    .swatch:hover  { transform: scale(1.15); }
+    .swatch.picked { border-color: #f8fafc; }
+    .badge {
+      display: inline-block; background: #334155; padding: .25rem .75rem;
+      border-radius: 20px; font-size: .75rem; color: #94a3b8; margin-top: .5rem;
+    }
+    footer { text-align: center; padding: 2rem; color: #475569; font-size: .85rem; }
+  </style>
+</head>
+<body>
+
+  <!-- VARIANT A CONTENT -->
+  <div data-variant="A">
+    <section class="hero">
+      <h1>Grow Your Business Online</h1>
+      <p>Join thousands of companies using our platform to increase revenue and reach more customers.</p>
+      <button class="cta-btn" id="signup-btn">Get Started Free</button>
+    </section>
+  </div>
+
+  <!-- VARIANT B CONTENT -->
+  <div data-variant="B">
+    <section class="hero">
+      <h1>Supercharge Your Growth</h1>
+      <p>Join 50,000+ businesses scaling faster with AI-powered insights. Start free, no credit card needed.</p>
+      <button class="cta-btn" id="signup-btn">Start Free Trial →</button>
+    </section>
+  </div>
+
+  <!-- COLOUR PREFERENCE SECTION (shared) -->
+  <div class="color-section">
+    <div class="section" style="padding-top:1.5rem;padding-bottom:1.5rem;">
+      <p style="font-weight:600;font-size:1rem;">Which colour feels right for this brand?</p>
+      <p style="color:#94a3b8;font-size:.875rem;margin-top:.25rem;">Your preference helps us design better.</p>
+      <div class="color-grid" id="swatches">
+        <div class="swatch" style="background:#3B82F6" data-color="#3B82F6" title="Blue"></div>
+        <div class="swatch" style="background:#10B981" data-color="#10B981" title="Emerald"></div>
+        <div class="swatch" style="background:#F59E0B" data-color="#F59E0B" title="Amber"></div>
+        <div class="swatch" style="background:#EF4444" data-color="#EF4444" title="Red"></div>
+        <div class="swatch" style="background:#8B5CF6" data-color="#8B5CF6" title="Violet"></div>
+        <div class="swatch" style="background:#EC4899" data-color="#EC4899" title="Pink"></div>
+        <div class="swatch" style="background:#14B8A6" data-color="#14B8A6" title="Teal"></div>
+        <div class="swatch" style="background:#F97316" data-color="#F97316" title="Orange"></div>
+      </div>
+      <p id="color-chosen" style="color:#94a3b8;font-size:.8rem;margin-top:.75rem;"></p>
+    </div>
+  </div>
+
+  <footer>A/B Test Demo — Variant shown randomly • Data sent to localhost:5000</footer>
+
+  <!-- A/B TRACKER SCRIPT (loads last) -->
+  <script src="ab-tracker.js" data-api="http://localhost:5000" data-cta="signup-btn"></script>
+
+  <!-- COLOUR PICKER WIRING -->
+  <script>
+    document.querySelectorAll(".swatch").forEach(s => {
+      s.addEventListener("click", function () {
+        document.querySelectorAll(".swatch").forEach(x => x.classList.remove("picked"));
+        this.classList.add("picked");
+        const hex = this.dataset.color;
+        document.getElementById("color-chosen").textContent = `You picked ${this.title} (${hex}) — thanks!`;
+        if (window.ABTracker) ABTracker.setColor(hex);
+      });
+    });
+  </script>
+</body>
+</html>
