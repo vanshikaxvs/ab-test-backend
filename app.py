@@ -13,7 +13,7 @@ Dashboard: http://localhost:5000
 """
 
 from flask import Flask, request, jsonify, render_template_string, make_response
-from flask_cors import CORS(app, origins="*")
+from flask_cors import CORS
 import sqlite3
 import uuid
 import json
@@ -25,7 +25,7 @@ from scipy import stats
 import numpy as np
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins="*")
 
 DB_PATH = "ab_test.db"
 
