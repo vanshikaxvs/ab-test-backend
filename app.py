@@ -11,8 +11,13 @@ from scipy import stats
 import numpy as np
 
 app = Flask(__name__)
-CORS(app)
-
+CORS(app, resources={
+    r"/api/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 DB_PATH = "ab_test.db"
 
 def get_db():
