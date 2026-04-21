@@ -13,7 +13,7 @@ Dashboard: http://localhost:5000
 """
 
 from flask import Flask, request, jsonify, render_template_string, make_response
-from flask_cors import CORS
+from flask_cors import CORS(app, origins="*")
 import sqlite3
 import uuid
 import json
